@@ -2,6 +2,8 @@
 
 ClassWeaver is a proof of concept/explorative coding effort in order to demonstrate how AOP in PHP could be implemeneted by directly weaving class methods instead of subclassing and overriding the parent methods. 
 
+It´s mostly geared towards Symfony projects.
+
 ## How does it work?
 
 All of the magic is possible thanks to [Nikic´s PHP Parser](https://github.com/nikic/PHP-Parser/)
@@ -16,6 +18,8 @@ All of the magic is possible thanks to [Nikic´s PHP Parser](https://github.com/
 
 - very slow for large source trees when each and every class needs to be weaved
 - rather complicated
+- code is quite ugly at the moment
+- ...
 
 # Try it
 
