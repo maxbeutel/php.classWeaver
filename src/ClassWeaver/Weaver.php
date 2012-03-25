@@ -35,7 +35,7 @@ class Weaver
 		foreach ($regex as $file) {
 			$file = $file[0];
 
-//			var_dump($file);
+			print '# weaving: ' . $file . PHP_EOL;
 			
 			$parser = new PHPParser_Parser();
 			
@@ -56,20 +56,21 @@ class Weaver
 				
 //				print $code;
 //				print PHP_EOL;
-//				print PHP_EOL;
-//				print PHP_EOL;
 
-				if (!$myVisitor->weavedFilePath) {
+				if (!$myVisitor->weavingSucceeded()) {
+					print '## weaving did not succeed, continue' . PHP_EOL;
 					continue;
 				}
 
-				if (!file_exists(dirname($myVisitor->weavedFilePath))) {
-					mkdir(dirname($myVisitor->weavedFilePath), 0777, true);
+				if (!file_exists(dirname($myVisitor->getWeavedFilePath()))) {
+					mkdir(dirname($myVisitor->getWeavedFilePath()), 0777, true);
 				}
 				
-				file_put_contents($myVisitor->weavedFilePath, '<?php ' . $code);
+				print '## dumping weaved class to ' . $myVisitor->getWeavedFilePath() . PHP_EOL;
+
+				file_put_contents($myVisitor->getWeavedFilePath(), '<?php ' . $code);
 				
-				$weavedClassesMap[$myVisitor->weavedNamespacedClassName] = $myVisitor->weavedFilePath;
+				$weavedClassesMap[$myVisitor->getWeavedNamespacedClassName()] = $myVisitor->getWeavedFilePath();
 			} catch (PHPParser_Error $e) {
 				throw new RuntimeException('Parse Error in ' . $file, $e->getCode(), $e);
 			}
